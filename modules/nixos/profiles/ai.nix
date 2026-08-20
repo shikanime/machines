@@ -158,10 +158,10 @@ in
     rtk
   ];
 
-  networking.firewall.allowedTCPPorts = [
-    9900
-    8642
-  ];
+  # Ingress only from the Tailscale tailnet. Peer DM (a2a :9900 / api :8642)
+  # reaches these via `tailscale serve`; funnel also terminates on tailscale0.
+  # No global port allow-list: everything else is dropped by default policy.
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   services = {
     cua-driver.enable = true;
